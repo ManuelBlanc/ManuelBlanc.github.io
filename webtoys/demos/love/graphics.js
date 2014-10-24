@@ -14,6 +14,7 @@
 
 	love.graphics.clear = function() {
 		love._context.clearRect(0, 0, love._canvas.width, love._canvas.height);
+		love.graphics.setAlpha(255);
 		love.graphics.setStringColor(_bgColor);
 		love.graphics.rectangle("fill", 0, 0, love._canvas.width, love._canvas.height);
 	};

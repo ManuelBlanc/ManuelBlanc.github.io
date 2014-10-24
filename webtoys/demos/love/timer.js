@@ -17,4 +17,8 @@
 		return _dif;
 	};
 
+	love.timer.getFPS = function() {
+		return 0;
+	};
+
 })();

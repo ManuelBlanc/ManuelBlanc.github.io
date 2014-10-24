@@ -20,8 +20,8 @@
 		};
 	};
 
-	love.mouse.setVisible = function() {
-		// NYI
+	love.mouse.setVisible = function(bool) {
+		love._canvas.style.cursor = bool ? "auto" : "none";
 	};
 
 	love.mouse.isDown = function(button) {

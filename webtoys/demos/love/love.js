@@ -22,7 +22,7 @@
 	};
 
 	window.onload = function() {
-		love._canvas  = document.getElementById("myCanvas");
+		love._canvas  = document.getElementById("love");
 		love._context = love._canvas.getContext("2d");
 		init();
 	};
@@ -51,10 +51,10 @@
 		love._timerId = setTimeout(love.run, 1000*TICK_RATE);
 	};
 
-	love.load  	= function() { throw new Error('undefined load'   ); };
-	love.update	= function() { throw new Error('undefined update' ); };
-	love.draw  	= function() { throw new Error('undefined draw'   ); };
-	love.quit  	= function() { throw new Error('undefined quit'   ); };
+	love.load  	= function() {};
+	love.update	= function() {};
+	love.draw  	= function() {};
+	love.quit  	= function() {};
 
 	love._exit = function() {
 		if (love.quit()) return false;

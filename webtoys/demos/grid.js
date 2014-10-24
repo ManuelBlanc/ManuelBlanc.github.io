@@ -18,13 +18,13 @@
 	Grid.prototype.set = function(x, y, v) {
 		if (x < 0 || x >= W) return false;
 		if (y < 0 || y >= H) return false;
-		this.cells[y][x] = Math.max(-1, Math.min(v, 1));
+		this.cells[y][x] = v; // Math.max(-1, Math.min(v, 1));
 	};
 
 	Grid.prototype.get = function(x, y) {
 		if (x < 0 || x >= W) return 0;
 		if (y < 0 || y >= H) return 0;
-		if (this.cells[y][x] === false) return 0;
+		if (this.cells[y][x] === false) return false;
 		return this.cells[y][x];
 	};
 
@@ -36,12 +36,28 @@
 		}
 	};
 
+	Grid.prototype.map = function(chunk) {
+		for (var y = 0; y < H; y++) {
+			for (var x = 0; x < W; x++) {
+				this.cells[y][x] = chunk(x, y, this.cells[y][x]);
+			}
+		}
+	};
+
 	Grid.prototype.neighbours = function(x, y) {
 		return [
 			[ this.get(x-1, y-1), this.get(x, y-1), this.get(x+1, y-1) ],
 			[ this.get(x-1, y  ), this.get(x, y  ), this.get(x+1, y  ) ],
 			[ this.get(x-1, y+1), this.get(x, y+1), this.get(x+1, y+1) ],
 		];
+	};
+
+	Grid.prototype.neighboursReduce = function(x, y, chunk, init) {
+		for (var i=-1; i <= 1; i++) {
+			for (var j=-1; j <= 1; j++) {
+				init = chunk(this.get(x+i, y+j), init);
+			}
+		}
 	};
 
 })();
