@@ -69,6 +69,12 @@ var waveSetups = [
 	},
 ];
 
+var sign = function(n) {
+	if (n > 0) return  1;
+	if (n < 0) return -1;
+	           return  0;
+};
+
 love.load = function() {
 	love.window.setMode(W*S, H*S);
 	love.mouse.setVisible(false);
@@ -77,7 +83,7 @@ love.load = function() {
 	t = 0;
 
 	if (paletteArray === undefined) {
-		paletteArray = [[], [], [], []];
+		paletteArray = [[], [], [], [], []];
 		for (var i=0; i <= 2*255; i++) {
 			var v = i - 255;
 			var h = Math.floor(i/2);
@@ -85,6 +91,7 @@ love.load = function() {
 			/* yellow/green */ paletteArray[1][i] = love.graphics.newColor(Math.max(0, v), Math.abs(v), 0);
 			/* black/white  */ paletteArray[2][i] = love.graphics.newColor(h, h, h);
 			/* rainbows     */ paletteArray[3][i] = love.graphics.newColorHSL(h, 127, 127);
+			/* 2 colors     */ paletteArray[4][i] = (v > 0 ? "white" : "black");
 		}
 	}
 
