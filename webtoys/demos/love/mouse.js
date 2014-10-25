@@ -31,9 +31,9 @@
 	love.mousemoved = function() {};
 	love.mousewheel = function() {};
 
-	var _rect = love._canvas.getBoundingClientRect();
 
 	love._canvas.addEventListener('mousemove', function love_mousemove(evt) {
+		var _rect = love._canvas.getBoundingClientRect();
 		_x = evt.clientX - _rect.left;
 		_y = evt.clientY - _rect.top;
 		love.mousemoved(_x, _y);
