@@ -16,7 +16,7 @@
 	love.keyreleased = love.keyreleased || function() {};
 
 	var keyCode2Name = function(keyCode) {
-		switch (keyCode)
+		switch (keyCode) {
 			case 13: return "enter";
 			case 38: return "up";
 			case 40: return "down";
@@ -27,8 +27,9 @@
 			case 17: return "ctrl";
 			case 18: return "alt";
 			case 16: return "shift";
-			default: return String.fromCharCode(keyCode)
-	}
+			default: return String.fromCharCode(keyCode);
+		}
+	};
 
 	love._canvas.addEventListener("keydown", function love_keydown(evt) {
 		var chr = keyCode2Name(evt.keyCode);
