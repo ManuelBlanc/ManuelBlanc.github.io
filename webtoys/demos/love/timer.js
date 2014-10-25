@@ -6,11 +6,17 @@
 		return Date.now() / 1000; // To seconds
 	};
 
-	var _last = love.timer.getTime(), _dif = 0;
-	love.timer.step = function() {
-		var now = love.timer.getTime();
+	var _last = 0, _dif = 0, _fps = 0;
+
+	love.timer.init = function(now) {
+		_last = now;
+	};
+
+	love.timer.step = function(now) {
 		_dif = now - _last;
 		_last = now;
+		if (_dif <= 0) return;
+		_fps = (1000/_dif)*0.9 + _fps*0.1;
 	};
 
 	love.timer.getDelta = function() {
@@ -18,7 +24,7 @@
 	};
 
 	love.timer.getFPS = function() {
-		return 0;
+		return _fps;
 	};
 
 })();

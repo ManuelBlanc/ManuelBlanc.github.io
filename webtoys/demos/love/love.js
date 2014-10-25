@@ -1,6 +1,6 @@
 (function() { "use strict";
 
-	var TICK_RATE = 1/30;
+	var FPS = 1/30;
 	var modules = ["event","graphics","keyboard","mouse","timer","window"];
 
 	window.love = {};
@@ -17,7 +17,10 @@
 		else {
 			console.log("Done! Starting game.");
 			love.load();
-			love._timerId = setTimeout(love.run, 0);
+			requestAnimationFrame(function(now) {
+				love.timer.init(now);
+				requestAnimationFrame(love.run);
+			});
 		}
 	};
 
@@ -38,17 +41,17 @@
 	};
 
 	var acc = 0;
-	love.run = function() {
-		love.timer.step();
-		acc += love.timer.getDelta();
-		while (acc >= TICK_RATE) {
-			love.update(TICK_RATE);
-			acc -= TICK_RATE;
+	love.run = function(now) {
+		love.timer.step(now);
+		acc += Math.min(love.timer.getDelta(), FPS);
+		while (acc >= FPS) {
+			love.update(FPS);
+			acc -= FPS;
 		}
 
 		love.graphics.clear();
 		love.draw();
-		love._timerId = setTimeout(love.run, 1000*TICK_RATE);
+		love._timerId = requestAnimationFrame(love.run);
 	};
 
 	love.load  	= function() {};
@@ -58,7 +61,7 @@
 
 	love._exit = function() {
 		if (love.quit()) return false;
-		clearTimeout(love._timerId);
+		cancelAnimationFrame(love._timerId);
 		return true;
 	};
 

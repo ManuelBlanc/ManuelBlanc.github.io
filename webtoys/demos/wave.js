@@ -44,8 +44,16 @@ var waveSetups = [
 		return v;
 	},
 	function(x, y, v) {
-		var mx = Math.floor(W/2 + W/2*Math.cos(t));
-		var my = 0;
+		var mx = 0;
+		var my = Math.floor(H/2)-1;
+		if (x >= mx && x < mx+mw && y >= my && y < my+mh) {
+			return 1;
+		}
+		return v;
+	},
+	function(x, y, v) {
+		var mx = Math.floor(Math.acos(Math.cos((t/30)%1 * 2*Math.PI))/Math.PI*W);
+		var my = Math.floor(H/2)-1;
 		if (x >= mx && x < mx+mw && y >= my && y < my+mh) {
 			return 1;
 		}
@@ -118,11 +126,11 @@ love.update = function(dt) {
 	// Mouse editing
 	var mx = Math.floor(love.mouse.getX()/S);
 	var my = Math.floor(love.mouse.getY()/S);
-	     if (love.mouse.isDown('left' )) setRect(mx, my, mw, mh,  1);
-	else if (love.mouse.isDown('right')) setRect(mx, my, mw, mh, -1);
+	     if (love.mouse.isDown("left" )) setRect(mx, my, mw, mh,  1);
+	else if (love.mouse.isDown("right")) setRect(mx, my, mw, mh, -1);
 
 	// Pausing
-	if (love.keyboard.isDown(' ')) return;
+	if (love.keyboard.isDown(" ")) return;
 
 	t += SPEED*dt;
 	grid_curr.map(waveSetups[curSetup]);
@@ -143,9 +151,9 @@ love.update = function(dt) {
 };
 
 love.keypressed = function(key) {
-	if (key == 'R') love.load();
-	if (key == 'G') drawGrid = !drawGrid;
-	if (key == 'T') palette = (palette+1) % paletteArray.length;
+	if (key == "R") love.load();
+	if (key == "G") drawGrid = !drawGrid;
+	if (key == "T") palette = (palette+1) % paletteArray.length;
 	var n = parseInt(key);
 	if (n >= 0 && n < waveSetups.length) {
 		love.load();
@@ -158,7 +166,7 @@ love.draw = function() {
 	// Cells
 	grid_curr.each(function(x, y, v) {
 		love.graphics.setStringColor(paletteArray[palette][round(255 + 255*v)]);
-		love.graphics.rectangle('fill', x*S, y*S, S, S);
+		love.graphics.rectangle("fill", x*S, y*S, S, S);
 	});
 
 	// Grid
@@ -173,7 +181,10 @@ love.draw = function() {
 	// Mouse cursor
 	var mx = Math.floor(love.mouse.getX()/S);
 	var my = Math.floor(love.mouse.getY()/S);
-	love.graphics.setColor(love.mouse.isDown('left') ? 255 : 127, 255, 127);
+	love.graphics.setColor(love.mouse.isDown("left") ? 255 : 127, 255, 127);
 	love.graphics.setLineWidth(10);
-	love.graphics.rectangle('line', mx*S, my*S, mw*S, mh*S);
+	love.graphics.rectangle("line", mx*S, my*S, mw*S, mh*S);
+
+	love.graphics.setStringColor("white");
+	love.graphics.print(Math.floor(love.timer.getFPS()) + ' FPS', 800-50, 15);
 };
