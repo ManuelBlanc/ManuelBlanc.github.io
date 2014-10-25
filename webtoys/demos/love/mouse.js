@@ -29,11 +29,13 @@
 	};
 
 	love.mousemoved = function() {};
+	love.mousewheel = function() {};
+
+	var _rect = love._canvas.getBoundingClientRect();
 
 	love._canvas.addEventListener('mousemove', function love_mousemove(evt) {
-		var rect = love._canvas.getBoundingClientRect();
-		_x = evt.clientX - rect.left;
-		_y = evt.clientY - rect.top;
+		_x = evt.clientX - _rect.left;
+		_y = evt.clientY - _rect.top;
 		love.mousemoved(_x, _y);
 	}, false);
 
@@ -54,13 +56,15 @@
 		_b[button] = true;
 		love.mousepressed(_x, _y, button);
 	}, false);
+
 	love._canvas.addEventListener('mouseup', function love_mouseup(evt) {
 		var button = love.mouse._evtButton(evt);
 		_b[button] = false;
 		love.mousereleased(_x, _y, button);
 	}, false);
-	//love._canvas.addEventListener('mousewheel', function love_mousewheel(evt) {
-	//	console.log(evt);
-	//}, false);
+
+	love._canvas.addEventListener('wheel', function love_mousewheel(evt) {
+		love.mousewheel(evt.deltaX, evt.deltaY, evt.deltaZ);
+	}, false);
 
 })();

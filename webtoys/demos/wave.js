@@ -3,44 +3,88 @@ var W = 80;
 var H = 60;
 var S = 10;
 
-var palette;
+var SPEED = 1;
+
+var palette = 0;
+var paletteArray;
 
 // Conf
+var t;
 var mw = 5, mh = 5;
 var drawGrid = false;
 
 var grid_last, grid_curr, grid_next;
 
-var curSetup = 0;
 var waveSetups = [
 	function(x, y, v) { return v; },
 	function(x, y, v) {
-		var mx = Math.floor(love.mouse.getX()/S);
-		var my = Math.floor(love.mouse.getY()/S);
-		if (Math.pow(8-x, 2) + Math.pow(24-y, 2) < 4) {
-			return Math.cos(love.timer.getTime());
+		if (x === 0) return Math.cos(t);
+		return v;
+	},
+	function(x, y, v) {
+		if (x ===   0) return  Math.cos(t);
+		if (x === W-1) return -Math.cos(t);
+		return v;
+	},
+	function(x, y, v) {
+		if (Math.pow(W/2-x, 2) + Math.pow(H/2-y, 2) < 4) {
+			return Math.cos(t);
 		}
 		return v;
 	},
 	function(x, y, v) {
-		if (x === 0) return Math.cos(love.timer.getTime());
+		var dd = Math.pow(W/2-x, 2) + Math.pow(H/2-y, 2);
+		if (dd >= 20*20 && dd <= 21*21) return Math.cos(t);
 		return v;
 	},
 	function(x, y, v) {
-		if (x === 0 || x === W-1) return Math.cos(love.timer.getTime());
+		var dd = Math.pow(W/2-x, 2) + Math.pow(H/2-y, 2);
+		var aa = Math.atan2(H/2-y, W/2-x);
+		if (dd > 17*17 && dd < 18*18) return Math.cos(aa + t);
 		return v;
-	}
+	},
+	function(x, y, v) {
+		var mx = Math.floor(W/2 + W/2*Math.cos(t));
+		var my = 0;
+		if (x >= mx && x < mx+mw && y >= my && y < my+mh) {
+			return 1;
+		}
+		return v;
+	},
+	function(x, y, v) {
+		var mx = Math.floor(W/2 + 10*Math.cos(2*t));
+		var my = Math.floor(H/2 + 10*Math.sin(2*t));
+		if (x >= mx && x < mx+mw && y >= my && y < my+mh) {
+			return 1;
+		}
+		return v;
+	},
+	function(x, y, v) {
+		var mx = Math.floor(love.mouse.getX()/S);
+		var my = Math.floor(love.mouse.getY()/S);
+		if (x >= mx && x < mx+mw && y >= my && y < my+mh) {
+			return Math.cos(t);
+		}
+		return v;
+	},
 ];
 
 love.load = function() {
 	love.window.setMode(W*S, H*S);
 	love.mouse.setVisible(false);
 
-	if (palette === undefined) {
-		palette = [];
+	curSetup = 0;
+	t = 0;
+
+	if (paletteArray === undefined) {
+		paletteArray = [[], [], [], []];
 		for (var i=0; i <= 2*255; i++) {
 			var v = i - 255;
-			palette[i] = love.graphics.newColor(Math.max(0, -v), 0, Math.max(0, v));
+			var h = Math.floor(i/2);
+			/* red/blue     */ paletteArray[0][i] = love.graphics.newColor(Math.max(0, v), 0, Math.max(0, -v));
+			/* yellow/green */ paletteArray[1][i] = love.graphics.newColor(Math.max(0, v), Math.abs(v), 0);
+			/* black/white  */ paletteArray[2][i] = love.graphics.newColor(h, h, h);
+			/* rainbows     */ paletteArray[3][i] = love.graphics.newColorHSL(h, 127, 127);
 		}
 	}
 
@@ -62,6 +106,7 @@ var setRect = function(x, y, w, h, val) {
 };
 
 love.update = function(dt) {
+
 	var x, y;
 	// Mouse editing
 	var mx = Math.floor(love.mouse.getX()/S);
@@ -72,8 +117,7 @@ love.update = function(dt) {
 	// Pausing
 	if (love.keyboard.isDown(' ')) return;
 
-	var t = love.timer.getTime();
-
+	t += SPEED*dt;
 	grid_curr.map(waveSetups[curSetup]);
 
 	// Updating cells
@@ -94,15 +138,19 @@ love.update = function(dt) {
 love.keypressed = function(key) {
 	if (key == 'R') love.load();
 	if (key == 'G') drawGrid = !drawGrid;
+	if (key == 'T') palette = (palette+1) % paletteArray.length;
 	var n = parseInt(key);
-	if (n >= 0 && n <= waveSetups.length) curSetup = n;
+	if (n >= 0 && n < waveSetups.length) {
+		love.load();
+		curSetup = n;
+	}
 };
 
 love.draw = function() {
 
 	// Cells
 	grid_curr.each(function(x, y, v) {
-		love.graphics.setStringColor(palette[round(255 + 255*v)]);
+		love.graphics.setStringColor(paletteArray[palette][round(255 + 255*v)]);
 		love.graphics.rectangle('fill', x*S, y*S, S, S);
 	});
 
