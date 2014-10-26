@@ -1,0 +1,11 @@
+doctype html
+html(lang="en")
+	head
+		meta(charset="utf-8")
+		title= title
+		script(src="love/love.js" type="text/javascript" charset="utf-8" defer="true")
+		block scripts
+		// Asynchronously loaded scripts are below this comment.
+
+	body
+		canvas#love(width="800" height="600")

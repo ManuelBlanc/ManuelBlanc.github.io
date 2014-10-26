@@ -1,0 +1,16 @@
+#!/usr/bin/env rake
+
+task :default => :html
+
+html_files = FileList['*.jade'].exclude('layout.jade').ext('html')
+#html_files.each { |src| file html }
+
+desc 'Generate all HTML files'
+task :html => html_files
+
+rule '.html' => ['.jade'] do |t|
+	sh "jade #{t.source}"
+end
+
+require 'rake/clean'
+CLOBBER.include(html_files)
