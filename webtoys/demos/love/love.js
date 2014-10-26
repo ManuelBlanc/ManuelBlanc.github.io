@@ -26,7 +26,13 @@
 
 	window.onload = function() {
 		love._canvas  = document.getElementById("love");
-		love._context = love._canvas.getContext("2d");
+		love._context = (love._canvas.getContext && love._canvas.getContext("2d"));
+		if (!love._context) {
+			// #nolove element remains visible
+			throw new Error("HTML5 canvas is not supported.");
+		}
+		var nolove = document.getElementById("nolove");
+		if (nolove) nolove.style.display = "none";
 		init();
 	};
 

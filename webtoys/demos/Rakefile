@@ -2,13 +2,15 @@
 
 task :default => :html
 
+jade_file = 'layout.jade'
 json_files = FileList['*.json']
 html_files = json_files.ext('html')
 
 json_files.each { |src|
 	html = src.ext('html')
+	file html => jade_file
 	file html => src do |f|
-		sh "jade --pretty --obj #{src} < layout.jade > #{html}"
+		sh "jade --pretty --obj #{src} < #{jade_file} > #{html}"
 	end
 }
 

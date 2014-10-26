@@ -2,5 +2,6 @@
 	"title": "2D Wave Tank",
 	"scripts": ["grid.js", "wave.js"],
 	"width":  800,
-	"height": 600
+	"height": 600,
+	"description": "Click to create waves! Try pressing <strong>1-9</strong>, <strong>G</strong> and <strong>T</strong> too!"
 }
