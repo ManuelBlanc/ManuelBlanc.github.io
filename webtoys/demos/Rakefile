@@ -2,15 +2,19 @@
 
 task :default => :html
 
-html_files = FileList['*.jade'].exclude('layout.jade').ext('html')
-#html_files.each { |src| file html }
+json_files = FileList['*.json']
+html_files = json_files.ext('html')
+
+json_files.each { |src|
+	html = src.ext('html')
+	file html => src do |f|
+		sh "jade --pretty --obj #{src} < layout.jade > #{html}"
+	end
+}
 
 desc 'Generate all HTML files'
 task :html => html_files
 
-rule '.html' => ['.jade'] do |t|
-	sh "jade #{t.source}"
-end
 
 require 'rake/clean'
 CLOBBER.include(html_files)

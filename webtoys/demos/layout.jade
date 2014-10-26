@@ -4,7 +4,8 @@ html(lang="en")
 		meta(charset="utf-8")
 		title= title
 		script(src="love/love.js" type="text/javascript" charset="utf-8" defer="true")
-		block scripts
+		each src in scripts
+			script(src=src type="text/javascript" charset="utf-8" defer="true")
 		// Asynchronously loaded scripts are below this comment.
 
 	body
