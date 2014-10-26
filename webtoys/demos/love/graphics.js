@@ -50,6 +50,10 @@
 		love._context.fillStyle   = colStr;
 	};
 
+	love.graphics.setBlendMode = function(mode) {
+		love._context.globalCompositeOperation = mode;
+	}
+
 	love.graphics.setColor = function(r, g, b) {
 		love.graphics.setStringColor(love.graphics.newColor(r, g, b));
 	};

@@ -161,6 +161,11 @@ love.keypressed = function(key) {
 	}
 };
 
+love.mousewheel = function(dx, dy, dz) {
+	mw = Math.max(2, Math.min(mw+sign(-dx), 20));
+	mh = Math.max(2, Math.min(mh+sign(-dx), 20));
+};
+
 love.draw = function() {
 
 	// Cells
@@ -186,5 +191,7 @@ love.draw = function() {
 	love.graphics.rectangle("line", mx*S, my*S, mw*S, mh*S);
 
 	love.graphics.setStringColor("white");
+	love.graphics.setBlendMode("difference");
 	love.graphics.print(Math.floor(love.timer.getFPS()) + ' FPS', 800-50, 15);
+	love.graphics.setBlendMode("normal");
 };

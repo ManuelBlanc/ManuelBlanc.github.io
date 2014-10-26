@@ -28,8 +28,10 @@
 		return _b.hasOwnProperty(button) && _b[button];
 	};
 
-	love.mousemoved = function() {};
-	love.mousewheel = function() {};
+	love.mousemoved    = love.mousemoved   	|| function() {};
+	love.mousewheel    = love.mousewheel   	|| function() {};
+	love.mousepressed  = love.mousepressed 	|| function() {};
+	love.mousereleased = love.mousereleased	|| function() {};
 
 
 	love._canvas.addEventListener('mousemove', function love_mousemove(evt) {
@@ -48,9 +50,6 @@
 		}
 	};
 
-	love.mousepressed  = love.mousepressed  || function() {};
-	love.mousereleased = love.mousereleased || function() {};
-
 	love._canvas.addEventListener('mousedown', function love_mousedown(evt) {
 		var button = love.mouse._evtButton(evt);
 		_b[button] = true;
@@ -65,6 +64,11 @@
 
 	love._canvas.addEventListener('wheel', function love_mousewheel(evt) {
 		love.mousewheel(evt.deltaX, evt.deltaY, evt.deltaZ);
+		evt.preventDefault();
+	}, false);
+
+	love._canvas.addEventListener('contextmenu', function(e) {
+		e.preventDefault();
 	}, false);
 
 })();
