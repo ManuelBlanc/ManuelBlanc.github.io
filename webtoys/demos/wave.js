@@ -46,7 +46,7 @@ var waveSetups = [
 	function(x, y, v) {
 		var mx = 0;
 		var my = Math.floor(H/2)-1;
-		if (x >= mx && x < mx+mw && y >= my && y < my+mh) {
+		if (x >= mx && x < mx+3 && y >= my && y < my+3) {
 			return 1;
 		}
 		return v;
@@ -54,7 +54,7 @@ var waveSetups = [
 	function(x, y, v) {
 		var mx = Math.floor(Math.acos(Math.cos((t/30)%1 * 2*Math.PI))/Math.PI*W);
 		var my = Math.floor(H/2)-1;
-		if (x >= mx && x < mx+mw && y >= my && y < my+mh) {
+		if (x >= mx && x < mx+3 && y >= my && y < my+3) {
 			return 1;
 		}
 		return v;
@@ -62,7 +62,7 @@ var waveSetups = [
 	function(x, y, v) {
 		var mx = Math.floor(W/2 + 10*Math.cos(2*t));
 		var my = Math.floor(H/2 + 10*Math.sin(2*t));
-		if (x >= mx && x < mx+mw && y >= my && y < my+mh) {
+		if (x >= mx && x < mx+3 && y >= my && y < my+3) {
 			return 1;
 		}
 		return v;

@@ -1,5 +1,5 @@
 {
-	"title": "2D Wave Tank",
+	"title": "Wave Tank",
 	"scripts": ["grid.js", "wave.js"],
 	"width":  800,
 	"height": 600,
