@@ -92,9 +92,9 @@ love.load = function() {
 			var h = Math.floor(i/2);
 			/* red/blue     */ paletteArray[0][i] = love.graphics.newColor(Math.max(0, -v), 0, Math.max(0, v));
 			/* yellow/green */ paletteArray[1][i] = love.graphics.newColor(Math.max(0, v), Math.abs(v), 0);
-			/* black/white  */ paletteArray[2][i] = love.graphics.newColor(h, h, h);
+			/* grayscale    */ paletteArray[2][i] = love.graphics.newColor(h, h, h);
 			/* rainbows     */ paletteArray[3][i] = love.graphics.newColorHSL(h, 127, 127);
-			/* 2 colors     */ paletteArray[4][i] = (v > 0 ? "white" : "black");
+			/* black&white  */ paletteArray[4][i] = (v > 0 ? "white" : "black");
 		}
 	}
 
@@ -125,7 +125,7 @@ love.update = function(dt) {
 	if (love.keyboard.isDown(" ")) return;
 
 	t += dt*SPEED;
-	//grid_curr.map(waveSetups[curSetup]);
+	grid_curr.map(waveSetups[curSetup]);
 
 	// Updating cells
 	grid_curr.each(function(x, y, v) {
@@ -169,7 +169,6 @@ love.draw = function() {
 
 	// Cells
 	grid_draw.each(function(x, y, v) {
-		if (v === 255) return;
 		love.graphics.setStringColor(paletteArray[palette][v]);
 		love.graphics.rectangle("fill", x*S, y*S, S, S);
 	});
