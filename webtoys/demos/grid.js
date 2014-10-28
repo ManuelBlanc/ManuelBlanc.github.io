@@ -16,9 +16,9 @@
 	};
 
 	Grid.prototype.set = function(x, y, v) {
-		if (x < 0 || x >= W) return false;
-		if (y < 0 || y >= H) return false;
-		this.cells[y][x] = v; // Math.max(-1, Math.min(v, 1));
+		if (x < 0 || x >= W) return;
+		if (y < 0 || y >= H) return;
+		this.cells[y][x] = v;
 	};
 
 	Grid.prototype.get = function(x, y) {

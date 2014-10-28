@@ -6,6 +6,7 @@ html(lang="en")
 		style(type="text/css").
 			body { padding-top: 70px; }
 			.github-ribbon > img { position: fixed; top: 0; right: 0; border: 0; z-index: 9999; }
+			#love { background-color: black; }
 
 		//- Bootstrap
 		meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
@@ -30,10 +31,12 @@ html(lang="en")
 
 
 		.container
-			#nolove.alert.alert-danger <strong>Error</strong> HTML5 canvas element is not supported in this browser!
 			.media
 				.pull-left
 					canvas#love(width="800" height="600")
+						.alert.alert-danger <strong>Error</strong> HTML5 canvas is not supported in this browser.
+				noscript
+					.alert.alert-danger <strong>Error</strong> JavaScript is not enabled.
 				.media-body
 					h2.media-heading= title
 					!= description

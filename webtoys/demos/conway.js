@@ -57,9 +57,11 @@ love.mousepressed = function (x, y, b) {
 	y = Math.floor(y/S);
 	     if (b == "left"     ) grid_curr.set(x, y, mhue);
 	else if (b == "right"    ) grid_curr.set(x, y, false);
-	else if (b == "wheelup"  ) mhue = pmod(mhue + 1, 255);
-	else if (b == "wheeldown") mhue = pmod(mhue - 1, 255);
 	else if (b == "middle"   ) mhue = math.floor(Math.random()*256);
+};
+
+love.mousewheel = function(dx, dy, dz) {
+	mhue = pmod(mhue + dx, 255);
 };
 
 love.keypressed = function(key, unicode) {
