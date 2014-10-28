@@ -1,6 +1,5 @@
 (function() { "use strict";
 
-	var FPS = 1/30;
 	var modules = ["event","graphics","keyboard","mouse","timer","window"];
 
 	window.love = {};
@@ -46,24 +45,18 @@
 		document.getElementsByTagName("head")[0].appendChild(js);
 	};
 
-	var acc = 0;
 	love.run = function(now) {
+		love._timerId = requestAnimationFrame(love.run);
 		love.timer.step(now);
-		acc += Math.min(love.timer.getDelta(), FPS);
-		while (acc >= FPS) {
-			love.update(FPS);
-			acc -= FPS;
-		}
 
 		love.graphics.clear();
 		love.draw();
-		love._timerId = requestAnimationFrame(love.run);
+
 	};
 
-	love.load  	= function() {};
-	love.update	= function() {};
-	love.draw  	= function() {};
-	love.quit  	= function() {};
+	love.load = love.load || function() {};
+	love.draw = love.draw || function() {};
+	love.quit = love.quit || function() {};
 
 	love._exit = function() {
 		if (love.quit()) return false;

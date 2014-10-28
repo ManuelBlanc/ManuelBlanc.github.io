@@ -2,8 +2,6 @@
 
 	love.graphics = {};
 
-	var _bgColor = "rgb(0,0,0)";
-
 	love.graphics.scale = function(sx, sy) {
 		love._context.scale(sx, sy);
 	};
@@ -14,9 +12,6 @@
 
 	love.graphics.clear = function() {
 		love._context.clearRect(0, 0, love._canvas.width, love._canvas.height);
-		love.graphics.setAlpha(255);
-		love.graphics.setStringColor(_bgColor);
-		love.graphics.rectangle("fill", 0, 0, love._canvas.width, love._canvas.height);
 	};
 
 	// Converts HSL to RGB. (input and output range: 0 - 255)
@@ -52,14 +47,14 @@
 
 	love.graphics.setBlendMode = function(mode) {
 		love._context.globalCompositeOperation = mode;
-	}
+	};
 
 	love.graphics.setColor = function(r, g, b) {
 		love.graphics.setStringColor(love.graphics.newColor(r, g, b));
 	};
 
 	love.graphics.setBackgroundColor = function(r, g, b) {
-		_bgColor = love.graphics.newColor(r, g, b);
+		love._canvas.style.backgroundColor = love.graphics.newColor(r, g, b);
 	};
 
 	love.graphics.setLineWidth = function(width) {
@@ -67,18 +62,10 @@
 	};
 
 	love.graphics.rectangle = function(mode, x, y, w, h) {
-		love._context.beginPath();
-		love._context.rect(x, y, w, h);
-		if (mode == "fill") {
-			love._context.fill();
-		}
-		else if (mode == "line") {
-			love._context.beginPath();
-			love._context.rect(x, y, w, h);
-			love._context.stroke();
-		}
-		else {
-			throw new Error("invalid mode (" + mode + ")");
+		switch (mode) {
+			case "fill": love._context.fillRect(x, y, w, h); break;
+			case "line": love._context.strokeRect(x, y, w, h); break;
+			default: throw new Error("invalid mode (" + mode + ")");
 		}
 	};
 
