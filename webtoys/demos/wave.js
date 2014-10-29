@@ -161,8 +161,8 @@ var sign = function(n) {
 };
 
 love.mousewheel = function(dx, dy, dz) {
-	mw = Math.max(2, Math.min(mw+sign(-dx), 20));
-	mh = Math.max(2, Math.min(mh+sign(-dx), 20));
+	mw = Math.max(2, Math.min(mw+sign(dy), 20));
+	mh = Math.max(2, Math.min(mh+sign(dy), 20));
 };
 
 love.draw = function() {
