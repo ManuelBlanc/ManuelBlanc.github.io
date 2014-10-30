@@ -1,7 +1,7 @@
 // Consts
-var W = 80;
-var H = 60;
-var S = 10;
+var W = 80; // * 2;
+var H = 60; // * 2;
+var S = 10; // / 2;
 
 var SPEED = 1;
 
@@ -90,7 +90,7 @@ love.load = function() {
 		for (var i=0; i <= 2*255; i++) {
 			var v = i - 255;
 			var h = Math.floor(i/2);
-			/* red/blue     */ paletteArray[0][i] = love.graphics.newColor(Math.max(0, -v), 0, Math.max(0, v));
+			/* red/blue     */ paletteArray[0][i] = love.graphics.newColor(Math.max(0, v), 0, Math.max(0, -v));
 			/* yellow/green */ paletteArray[1][i] = love.graphics.newColor(Math.max(0, v), Math.abs(v), 0);
 			/* grayscale    */ paletteArray[2][i] = love.graphics.newColor(h, h, h);
 			/* rainbows     */ paletteArray[3][i] = love.graphics.newColorHSL(h, 127, 127);
@@ -118,8 +118,9 @@ love.update = function(dt) {
 	// Mouse editing
 	var mx = Math.floor(love.mouse.getX()/S);
 	var my = Math.floor(love.mouse.getY()/S);
-	     if (love.mouse.isDown("left" )) setRect(mx, my, mw, mh, +1);
-	else if (love.mouse.isDown("right")) setRect(mx, my, mw, mh, -1);
+	     if (love.mouse.isDown("left" )) setRect(mx, my, mw, mh, -1);
+	else if (love.mouse.isDown("right")) setRect(mx, my, mw, mh, +1);
+	else if (love.keyboard.isDown("m")) throw new Error('fuck'); // setRect(mx, my, mw, mh, false);
 
 	// Pausing
 	if (love.keyboard.isDown(" ")) return;
@@ -129,6 +130,7 @@ love.update = function(dt) {
 
 	// Updating cells
 	grid_curr.each(function(x, y, v) {
+		if (v === false) return grid_next.set(x, y, v);
 		var neigh = grid_curr.neighbours(x, y);
 		var vx = neigh[1][0] - 2*neigh[1][1] + neigh[1][2];
 		var vy = neigh[0][1] - 2*neigh[1][1] + neigh[2][1];
@@ -145,9 +147,9 @@ love.update = function(dt) {
 };
 
 love.keypressed = function(key) {
-	if (key == "R") love.load();
-	if (key == "G") drawGrid = !drawGrid;
-	if (key == "T") palette = (palette+1) % paletteArray.length;
+	if (key == "r") love.load();
+	if (key == "g") drawGrid = !drawGrid;
+	if (key == "t") palette = (palette+1) % paletteArray.length;
 	var n = parseInt(key);
 	if (n >= 0 && n < waveSetups.length) {
 		love.load();
@@ -161,15 +163,15 @@ var sign = function(n) {
 };
 
 love.mousewheel = function(dx, dy, dz) {
-	mw = Math.max(2, Math.min(mw+sign(dy), 20));
-	mh = Math.max(2, Math.min(mh+sign(dy), 20));
+	mh = mw = Math.max(2, Math.min(mw + sign(dy), 20));
 };
 
 love.draw = function() {
 
 	// Cells
 	grid_draw.each(function(x, y, v) {
-		love.graphics.setStringColor(paletteArray[palette][v]);
+		if (v === false) love.graphics.setStringColor("cyan");
+		else love.graphics.setStringColor(paletteArray[palette][v]);
 		love.graphics.rectangle("fill", x*S, y*S, S, S);
 	});
 

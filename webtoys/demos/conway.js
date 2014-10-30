@@ -43,15 +43,6 @@ var neighMean = function(neigh) {
 	return Math.atan2(my, mx)/Math.PI*255;
 };
 
-var cnt = function(_, n) { return n+1; };
-var life_think = function(x, y) {
-	var count = grid_curr.neighboursReduce(x, y, cnt, 0);
-
-	     if (count  < 2) return false;
-	else if (count  > 3) return false;
-	else if (count == 3) return 1;
-};
-
 love.mousepressed = function (x, y, b) {
 	x = Math.floor(x/S);
 	y = Math.floor(y/S);
@@ -60,8 +51,13 @@ love.mousepressed = function (x, y, b) {
 	else if (b == "middle"   ) mhue = math.floor(Math.random()*256);
 };
 
+
+var mod = function(k, n) {
+	return ((k %= n) < 0) ? k+n : k;
+};
+
 love.mousewheel = function(dx, dy, dz) {
-	mhue = pmod(mhue + dx, 255);
+	mhue = Math.floor(mod(mhue + dy, 256));
 };
 
 love.keypressed = function(key, unicode) {
@@ -76,7 +72,7 @@ love.keypressed = function(key, unicode) {
 			var r = Math.random(9);
 			rx = rx + r%3 - 1;
 			ry = ry + Math.ceil(r/3) - 2;
-			h = (h + (Math.random() < 0.5 ? 5 : -5)) % 255;
+			h = (h + (Math.random() < 0.5 ? 5 : -5)) % 256;
 			if (grid_curr.get(rx, ry) === false) {
 				grid_curr.set(rx, ry, h);
 				i = i - 1;
@@ -89,6 +85,15 @@ love.keypressed = function(key, unicode) {
 	else if (key == "s" && love.keyboard.isDown(" ")) {
 		this.update(-1);
 	}
+};
+
+var cnt = function(_, n) { return n+1; };
+var life_think = function(x, y) {
+	var count = grid_curr.neighboursReduce(x, y, cnt, 0);
+
+	     if (count  < 2) return false;
+	else if (count  > 3) return false;
+	else if (count == 3) return 1;
 };
 
 love.update = function(dt) {
@@ -109,10 +114,14 @@ love.update = function(dt) {
 love.draw = function() {
 	var r = S/2;
 	grid_curr.each(function(x, y, v) {
-		if (v === false) return;
-		love.graphics.setStringColor(palette[v]);
+		if (v === false) {
+			love.graphics.setStringColor(127, 127, 127);
+		}
+		else {
+			love.graphics.setStringColor(palette[v]);
+		}
 		//love.graphics.rectangle("fill", x*S, y*S, S, S);
-		love.graphics.circle("fill", x*S+r, y*S+r, r);
+		//love.graphics.circle("fill", x*S+r, y*S+r, r);
 	});
 
 	if (drawGrid) {
@@ -124,13 +133,15 @@ love.draw = function() {
 	}
 
 	love.graphics.setStringColor("white");
+	love.graphics.setBlendMode("difference");
 	love.graphics.print(iterations, 5, 20);
-	love.graphics.print(love.timer.getFPS() + " FPS", 5, 45);
+	love.graphics.print(Math.floor(love.timer.getFPS()) + " FPS", 5, 45);
+	love.graphics.setBlendMode("normal");
 
 	// Mouse cursor
 	var mx = Math.floor(love.mouse.getX()/S),
 	    my = Math.floor(love.mouse.getY()/S);
-	love.graphics.setColor(love.mouse.isDown('left') ? 255 : 127, 255, 127);
+	love.graphics.setColor(palette[mhue]);
 	love.graphics.setLineWidth(10);
 	love.graphics.rectangle('line', mx*S, my*S, mw*S, mh*S);
 };

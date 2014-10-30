@@ -99,6 +99,10 @@
 	love._context.textBaseline = "top";
 	love._context.textAlign    = "left";
 
+	love.graphics.setTextAlign = function(alignment) {
+		love._context.textAlign = alignment;
+	};
+
 	love.graphics.print = function(text, x, y) {
 		love._context.fillText(text, x, y);
 	};

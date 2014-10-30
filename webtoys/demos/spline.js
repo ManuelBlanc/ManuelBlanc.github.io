@@ -2,6 +2,7 @@ var WIDTH, HEIGHT;
 
 var pts;
 var DIR_X, DIR_Y, INTV, SEGMENTS;
+var MAX_PTS = 20;
 
 var palette;
 
@@ -16,22 +17,23 @@ love.load = function() {
 
 	if (palette === undefined) {
 		palette = [];
-		for (var i=0; i < 9; i++) {
-			palette[i] = love.graphics.newColorHSL(i/9 * 255, 127, 127);
+		for (var i=0; i < MAX_PTS; i++) {
+			palette[i] = love.graphics.newColorHSL(i/MAX_PTS * 255, 127, 127);
 		}
 	}
 
 	love.mouse.setVisible(false);
+	love.graphics.setTextAlign("center");
 };
 
 love.keypressed = function(key) {
-	if (key == 'R') love.load();
+	if (key == "r") love.load();
 };
 
 love.mousepressed = function(mx, my, b) {
 	if (b != "left") return;
 	pts.push(new Vector(mx, my));
-	if (pts.length >= 11) pts.shift();
+	if (pts.length >= MAX_PTS + 1) pts.shift();
 };
 
 var spline = function(x0, y0, x1, y1, m) {
@@ -71,7 +73,7 @@ var draw_spline = function() {
 			// mx, Ax, Bx, Cx =
 
 			var seg = [];
-			love.graphics.setStringColor(palette[i-1]);
+			love.graphics.setStringColor(palette[(i-1) % palette.length]);
 			for (var t = 0; t <= INTV*(1 + 0.5/SEGMENTS); t += INTV/SEGMENTS) {
 				var new_pt = new Vector(
 					t*(t*quad_x.A + quad_x.B) + quad_x.C,
@@ -93,7 +95,7 @@ var draw_spline = function() {
 		love.graphics.circle("fill", v.x, v.y, 10);
 		love.graphics.setColor(200, 200, 200);
 		love.graphics.circle("line", v.x, v.y, 10);
-		love.graphics.print(i, v.x-4, v.y-7);
+		love.graphics.print(i+1, v.x, v.y-7);
 	}
 };
 
@@ -110,10 +112,14 @@ love.draw = function() {
 	}
 };
 
+love.mousewheel = function(dx, dy, dz) {
+	INTV = Math.max(1E-3, Math.min(INTV - dy, 1E3));
+};
+
 love.update = function(dt) {
 	if (pts.length === 0) return;
 	DIR_X = 0.01 * (love.mouse.getX() - pts[0].x);
 	DIR_Y = 0.01 * (love.mouse.getY() - pts[0].y);
-	if (love.keyboard.isDown("right")) INTV =         (INTV + 50*dt);
-	if (love.keyboard.isDown("left" )) INTV = math.max(INTV - 50*dt, 0.0001);
+	if (love.keyboard.isDown("right")) INTV =         (INTV + 500*dt);
+	if (love.keyboard.isDown("left" )) INTV = Math.max(INTV - 500*dt, 0.0001);
 };
