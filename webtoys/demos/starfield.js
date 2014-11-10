@@ -1,16 +1,18 @@
-var STAR_COUNT	= 256;
-var FOV       	= 500;
-var DRAW_STYLE	= 'circle';
-var DEPTH     	= 1000;
-var MAX_SPEED 	= 5;
+var STAR_COUNT	 = 256;
+var PLANET_COUNT = 4;
+var TOTAL_BODIES = STAR_COUNT + PLANET_COUNT;
+var FOV      	 = 100;
+var DEPTH    	 = 500;
+var MAX_SPEED	 = 1;
 var SH_WIDTH, SH_HEIGHT; // init in load.load
 
 var random = function(min, max) {
 	return min + (max - min) * Math.random();
 };
 
-var stars;
+var bodies;
 var palette;
+var speed;
 
 var Star = function() {
 	this.randomize();
@@ -27,8 +29,8 @@ Star.prototype.randomize = function() {
 };
 
 Star.prototype.update = function(dt) {
-	this.x = this.r * Math.cos(love.timer.getTime()*this.zv / 20);
-	this.y = this.r * Math.sin(love.timer.getTime()*this.zv / 20);
+	//this.x = this.r * Math.cos(love.timer.getTime()*this.zv / 20);
+	//this.y = this.r * Math.sin(love.timer.getTime()*this.zv / 20);
 
 	this.z  = this.z - this.zv*60*dt;
 	this.sx = this.x / this.z * FOV;
@@ -38,22 +40,37 @@ Star.prototype.update = function(dt) {
 Star.prototype.draw = function(sx, sy) {
 	var b = Math.floor(256 * (1 - this.z / DEPTH) * (this.zv / MAX_SPEED));
 	love.graphics.setStringColor(palette[b]);
-	if (DRAW_STYLE === 'circle') {
-		love.graphics.circle('fill', this.sx, this.sy, 1);
-	}
-	else {
-		love.graphics[DRAW_STYLE](this.sx, this.sy, sx, sy);
-	}
+	love.graphics.rectangle("fill", this.sx, this.sy, 1, 1);
+	love.graphics.line(this.sx, this.sy, sx, sy);
+};
+
+var Planet = function() {
+	this.randomize();
+};
+Planet.prototype = Object.create(Star.prototype);
+Planet.prototype.constructor = Planet;
+Planet.prototype.randomize = function() {
+	Star.prototype.randomize.call(this);
+	this.rad = random(500, 2000);
+	this.x = random(-50, 50);
+	this.y = random(-50, 50);
+	this.hue = Math.floor(random(0, 256));
+};
+Planet.prototype.draw = function(sx, sy) {
+	var b = (1 - this.z / DEPTH) * (this.zv / MAX_SPEED);
+	love.graphics.setStringColor(love.graphics.newColorHSL(this.hue, 127, b*b*128));
+	love.graphics.circle("fill", this.sx, this.sy, 300 / this.z);
 };
 
 love.load = function() {
 	var i;
 	SH_WIDTH  = 0.5*love.window.getWidth();
 	SH_HEIGHT = 0.5*love.window.getHeight();
-	stars = {};
-	for (i=0; i < STAR_COUNT; i++) {
-		stars[i] = new Star();
-	}
+	bodies = [];
+	for (i=0; i < STAR_COUNT;   i++) bodies.push(new Star());
+	for (i=0; i < PLANET_COUNT; i++) bodies.push(new Planet());
+
+	speed = 1;
 
 	palette = [];
 	for (i=0; i <= 255; i++) {
@@ -61,19 +78,25 @@ love.load = function() {
 	}
 };
 
+love.mousewheel = function(_, dy) {
+	speed = Math.max(0, Math.min(speed + dy / 1000, 100));
+};
+
 love.draw = function() {
 	love.graphics.translate(SH_WIDTH, SH_HEIGHT);
 
-	for (var i=0; i < STAR_COUNT; i++) {
-		var star = stars[i];
+	for (var i=0; i < TOTAL_BODIES; i++) {
+		var star = bodies[i];
 		// Move star
 		var sx = star.sx, sy = star.sy;
-		star.update(1/60);
-		// Redraw
-		star.draw(sx, sy);
+		star.update(speed * 1/60);
 		// Reset if needed
 		if (sx*sx > SH_WIDTH*SH_WIDTH || sy*sy > SH_HEIGHT*SH_HEIGHT || star.z < 1) {
 			star.randomize();
+		}
+		// Redraw if in bounds
+		else {
+			star.draw(sx, sy);
 		}
 	}
 

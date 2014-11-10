@@ -89,6 +89,10 @@
 		love._context.stroke();
 	};
 
+	love.graphics.point = function(x, y) {
+		love._context.fillRect(x, y, 1, 1);
+	};
+
 	love.graphics.circle = function(mode, x, y, r) {
 		love._context.beginPath();
 		love._context.arc(x, y, r, 0, 2*Math.PI, false);
