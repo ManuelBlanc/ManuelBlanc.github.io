@@ -1,9 +1,9 @@
 var STAR_COUNT	 = 256;
 var PLANET_COUNT = 4;
 var TOTAL_BODIES = STAR_COUNT + PLANET_COUNT;
-var FOV      	 = 100;
-var DEPTH    	 = 500;
-var MAX_SPEED	 = 1;
+var FOV      	 = 400;
+var DEPTH    	 = 1000;
+var MAX_SPEED	 = 5;
 var SH_WIDTH, SH_HEIGHT; // init in load.load
 
 var random = function(min, max) {
