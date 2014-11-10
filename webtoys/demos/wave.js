@@ -16,6 +16,7 @@ var drawGrid = false;
 var grid_last, grid_curr, grid_next;
 var grid_draw;
 
+var curSetup = 0;
 var waveSetups = [
 	function(x, y, v) { return v; },
 	function(x, y, v) {
@@ -113,8 +114,6 @@ var setRect = function(x, y, w, h, val) {
 };
 
 love.update = function(dt) {
-
-	var x, y;
 	// Mouse editing
 	var mx = Math.floor(love.mouse.getX()/S);
 	var my = Math.floor(love.mouse.getY()/S);

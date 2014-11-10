@@ -1,5 +1,3 @@
-var WIDTH, HEIGHT;
-
 var pts;
 var DIR_X, DIR_Y, INTV, SEGMENTS;
 var MAX_PTS = 20;

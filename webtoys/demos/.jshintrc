@@ -1,7 +1,7 @@
 {
   "undef": true,
-  "unused": true,
+  "unused": "vars",
   "browser": true,
   "devel": true,
-  "predef": [ "love" ]
+  "predef": [ "love", "Vector", "Grid" ]
 }

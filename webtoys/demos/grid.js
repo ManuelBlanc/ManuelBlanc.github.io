@@ -1,44 +1,46 @@
 (function() { "use strict";
 
-	window.Grid = function() {
+	var Grid = window.Grid = function() {
 		this.initialize.apply(this, arguments);
 	};
 
 	Grid.prototype.initialize = function(w, h) {
 		var y, x;
+		this.w = w;
+		this.h = h;
 		this.cells = [];
-		for (y = 0; y < H; y++) {
+		for (y = 0; y < this.h; y++) {
 			this.cells[y] = [];
-			for (x = 0; x < W; x++) {
+			for (x = 0; x < this.w; x++) {
 				this.cells[y][x] = 0;
 			}
 		}
 	};
 
 	Grid.prototype.set = function(x, y, v) {
-		if (x < 0 || x >= W) return;
-		if (y < 0 || y >= H) return;
+		if (x < 0 || x >= this.w) return;
+		if (y < 0 || y >= this.h) return;
 		this.cells[y][x] = v;
 	};
 
 	Grid.prototype.get = function(x, y) {
-		if (x < 0 || x >= W) return 0;
-		if (y < 0 || y >= H) return 0;
+		if (x < 0 || x >= this.w) return 0;
+		if (y < 0 || y >= this.h) return 0;
 		if (this.cells[y][x] === false) return false;
 		return this.cells[y][x];
 	};
 
 	Grid.prototype.each = function(chunk) {
-		for (var y = 0; y < H; y++) {
-			for (var x = 0; x < W; x++) {
+		for (var y = 0; y < this.h; y++) {
+			for (var x = 0; x < this.w; x++) {
 				chunk(x, y, this.cells[y][x]);
 			}
 		}
 	};
 
 	Grid.prototype.map = function(chunk) {
-		for (var y = 0; y < H; y++) {
-			for (var x = 0; x < W; x++) {
+		for (var y = 0; y < this.h; y++) {
+			for (var x = 0; x < this.w; x++) {
 				this.cells[y][x] = chunk(x, y, this.cells[y][x]);
 			}
 		}

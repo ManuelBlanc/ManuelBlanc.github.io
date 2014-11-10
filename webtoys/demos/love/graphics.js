@@ -107,4 +107,26 @@
 		love._context.fillText(text, x, y);
 	};
 
+	var _transformStack = [];
+	love.graphics.push = function() {
+		_transformStack.push(love._context.currentTransform);
+	};
+	love.graphics.pop = function() {
+		love._context.currentTransform = _transformStack.pop();
+	};
+
+	love.graphics.reset = function() {
+		love._context.setTransform(1, 0, 0, 1, 0, 0);
+	};
+
+	love.graphics.translate = function(x, y) {
+		love._context.translate(x, y);
+	};
+	love.graphics.scale = function(x, y) {
+		love._context.scale(x, y);
+	};
+	love.graphics.rotate = function(a) {
+		love._context.rotate(a);
+	};
+
 })();
