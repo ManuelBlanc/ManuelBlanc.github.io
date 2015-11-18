@@ -85,6 +85,9 @@ function input_handler() {
 	// Leemos el valor
 	var v = self.val();
 
+	// Si es un checkbox, tenemos que hacer un apaño (viva HTML)
+	if (self.attr("type") == "checkbox") v = self.is(':checked');
+
 	// Acotamos por min y max (si estan definidos)
 	if (self.attr("min")) v = Math.max(v, self.attr("min"));
 	if (self.attr("max")) v = Math.min(v, self.attr("max"));
