@@ -1,4 +1,6 @@
-var y0 = $V([ 500 , 2 , 0 ]); // Supervivientes, zombies, cadaveres
+var y0_S = 500;
+var y0_Z = 2;
+var y0_R = 0;
 
 var N = 2; // Numero de pasos por dia
 
@@ -28,7 +30,7 @@ var matrizPatrullas = $M([
 
 function metodo_euler(f, x0, y0, x1, NN) {
 
-	var h = (x1 - x0)/(NN-1);
+	var h = (x1 - x0)/NN;
 	var x = x0, y = y0;
 
 	var ret = [];
@@ -99,7 +101,7 @@ function adams_moulton2(f, x0, y0, x1, N) {
 */
 
 function recalcular() {
-	data = metodo_euler(f, 0, y0, 10, 1+N*10);
+	data = metodo_euler(f, 0, $V([ y0_S , y0_Z , y0_R ]), 10, 1+N*10);
 }
 
 recalcular();

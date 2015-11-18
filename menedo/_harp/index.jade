@@ -29,24 +29,43 @@ html(lang='es' xmlns='http://www.w3.org/1999/xhtml')
 
 		fieldset
 			legend Controles
-			label Pasos / dia (N)
-			input(name='N' type='range'  min='1' max='30' step='1')
-			input(name='N' type='number' min='1' max='30' step='1')
+
+			dia
+				label Pasos / dia (N)
+				input(name='N' type='range'  min='1' max='30' step='1')
+				input(name='N' type='number' min='1' max='30' step='1')
+
+			hr
+
+			div
+				label Humanos inicialmente (y0_S)
+				input(name='y0_S' type='range'  min='0' max='500' step='1')
+				input(name='y0_S' type='number' min='0' max='500' step='1')
+			div
+				label Zombies inicialmente (y0_Z)
+				input(name='y0_Z' type='range'  min='0' max='500' step='1')
+				input(name='y0_Z' type='number' min='0' max='500' step='1')
+			div
+				label Muertos inicialmente (y0_R)
+				input(name='y0_R' type='range'  min='0' max='500' step='1')
+				input(name='y0_R' type='number' min='0' max='500' step='1')
+
+			hr
 
 			div
 				label Exterminios (alpha)
 				input(name='exterminios' type='range'  min='0' max='0.01' step='0.0001')
 				input(name='exterminios' type='number' min='0' max='0.01' step='0.0001')
-
 			div
 				label Zombificaciones (beta)
 				input(name='zombificaciones' type='range'  min='0' max='0.01' step='0.0001')
 				input(name='zombificaciones' type='number' min='0' max='0.01' step='0.0001')
-
 			div
 				label Reanimaciones (zeta)
 				input(name='reanimaciones' type='range'  min='0' max='0.01' step='0.0001')
 				input(name='reanimaciones' type='number' min='0' max='0.01' step='0.0001')
+
+			hr
 
 			div
 				label Patrullas?

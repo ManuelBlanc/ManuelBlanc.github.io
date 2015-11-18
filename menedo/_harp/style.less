@@ -24,9 +24,25 @@ input {
 	&.zombies  	{ stroke: #0f0; fill: darken(#0f0, 10%); }
 	&.dead     	{ stroke: #000; fill: darken(#000, 10%); }
 
+	text {
+		font-family: monospace;
+		stroke: none;
+		font-size: 2em;
+	}
+
 	.line {
 		fill: none;
 		stroke-width: 1.5px;
 	}
 
+	.focus {
+		fill: none;
+		stroke-width: 1px;
+	}
+
+}
+
+.overlay {
+	fill: none;
+	pointer-events: all;
 }
