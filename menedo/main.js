@@ -101,12 +101,15 @@ function input_handler() {
 }
 
 function reset_values() {
-	update_value("N",              	3     	);
-	update_value("exterminios",    	0.0050	);
-	update_value("zombificaciones",	0.0095	);
-	update_value("reanimaciones",  	0.0001	);
-	update_value("patrullasP",     	false 	);
-	update_value("interpolacion",  	false 	);
+	update_value("N",              	3       	);
+	update_value("exterminios",    	0.0050  	);
+	update_value("zombificaciones",	0.0095  	);
+	update_value("reanimaciones",  	0.0001  	);
+	update_value("patrullasP",     	false   	);
+	update_value("interpolacion",  	"linear"	);
+
+	recalcular();
+	redraw();
 }
 
 
@@ -116,4 +119,3 @@ $("button#reset").on("click", reset_values);
 
 
 reset_values();
-redraw();
