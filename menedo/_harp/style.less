@@ -1,0 +1,48 @@
+body {
+	font: 10px sans-serif;
+}
+
+label {
+	display: inline-block;
+	width: 15em;
+}
+input {
+	margin-left: 2em;
+	&[type="number"] { width: 5em; }
+	&[type="range"]  { width: 50em; }
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+.dataSet {
+	&.survivors	{ stroke: #f00; fill: darken(#f00, 10%); }
+	&.zombies  	{ stroke: #0f0; fill: darken(#0f0, 10%); }
+	&.dead     	{ stroke: #000; fill: darken(#000, 10%); }
+
+	text {
+		font-family: monospace;
+		stroke: none;
+		font-size: 2em;
+	}
+
+	.line {
+		fill: none;
+		stroke-width: 1.5px;
+	}
+
+	.focus {
+		fill: none;
+		stroke-width: 1px;
+	}
+
+}
+
+.overlay {
+	fill: none;
+	pointer-events: all;
+}

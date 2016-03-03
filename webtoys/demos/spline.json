@@ -1,0 +1,7 @@
+{
+	"title": "2D Cubic Spline",
+	"description": "Click to add points! Press <strong>R</strong> to remove all.",
+	"scripts": ["vector.js", "spline.js"],
+	"width":  800,
+	"height": 600
+}
