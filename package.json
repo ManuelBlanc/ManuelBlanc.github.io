@@ -1,0 +1,27 @@
+{
+  "name": "manuelblanc.github.io",
+  "version": "1.0.0",
+  "description": "My personal GitHub Page",
+  "keywords": [],
+  "contributors": [],
+  "scripts": {
+    "serve": "harp server --port 3000 src/",
+    "compile": "harp compile src/ dist/",
+    "publish": "npm run compile && gh-pages -d dist/ -b master"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManuelBlanc/ManuelBlanc.github.io.git"
+  },
+  "author": "ManuelBlanc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ManuelBlanc/ManuelBlanc.github.io/issues"
+  },
+  "homepage": "https://github.com/ManuelBlanc/ManuelBlanc.github.io#readme",
+  "devDependencies": {
+    "gh-pages": "^0.11.0",
+    "harp": "^0.20.1"
+  },
+  "private": true
+}

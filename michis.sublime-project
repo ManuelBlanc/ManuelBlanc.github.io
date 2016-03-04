@@ -5,18 +5,18 @@
 			"follow_symlinks": true,
 			"name": "📕 Bookkeeping",
 			"path": ".",
-			"folder_exclude_patterns": ["public"]
+			"folder_exclude_patterns": ["src", "dist", "node_modules"]
 		},
 		{
 			"follow_symlinks": true,
 			"name": "📄⤵ Input",
-			"path": "public/",
+			"path": "src",
 		},
 		{
 			"follow_symlinks": true,
 			"name": "📄⤴ Output",
-			"path": "..",
-			"folder_exclude_patterns": ["_harp"]
+			"path": "dist",
+			"folder_exclude_patterns": ["_harp", "_etc", "node_modules"]
 		}
 	]
 }

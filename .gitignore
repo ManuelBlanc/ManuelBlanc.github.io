@@ -1,1 +1,10 @@
+# Packages
+node_modules
+
+# Output
 dist/
+
+# Text-editor related
+*.sublime-workspace
+.*.swp
+.*.swo
