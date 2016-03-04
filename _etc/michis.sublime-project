@@ -1,0 +1,22 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"name": "📕 Bookkeeping",
+			"path": ".",
+			"folder_exclude_patterns": ["public"]
+		},
+		{
+			"follow_symlinks": true,
+			"name": "📄⤵ Input",
+			"path": "public/",
+		},
+		{
+			"follow_symlinks": true,
+			"name": "📄⤴ Output",
+			"path": "..",
+			"folder_exclude_patterns": ["_harp"]
+		}
+	]
+}

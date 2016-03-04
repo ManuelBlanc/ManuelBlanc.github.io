@@ -1,0 +1,21 @@
+#!/usr/bin/env rake
+
+task :default => [:lint, :compile]
+
+FileList['.gitignore', 'LICENSE', 'michis.sublime-project', 'Rakefile']
+
+desc 'Lint JS(ON)? files'
+task :lint do
+	sh 'jshint --config _etc/jshint.json .'
+end
+
+desc 'Compile all resources using harp'
+task :compile do
+	sh 'mkdir dist/'
+	sh 'harp compile src/ dist/'
+end
+
+desc 'Run the harp server'
+task :server do
+	sh 'harp server --port 3000 .'
+end

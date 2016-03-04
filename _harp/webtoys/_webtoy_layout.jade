@@ -1,0 +1,17 @@
+extends ../_custom_layout.jade
+
+block scripts
+	script(defer src="//code.jquery.com/jquery-1.11.0.min.js" type="text/javascript")
+	
+	script(defer src="love/love.js" type="text/javascript")
+	script(defer src="grid.js" type="text/javascript")
+	script(defer src="vector.js" type="text/javascript")
+
+block stylesheets
+	link(rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css")
+
+block body
+	canvas#love(width="800" height="600" style="background-color: black")
+		.alert.alert-danger <strong>Error</strong> HTML5 canvas is not supported in this browser.
+	noscript
+		.alert.alert-danger <strong>Error</strong> JavaScript is not enabled.
